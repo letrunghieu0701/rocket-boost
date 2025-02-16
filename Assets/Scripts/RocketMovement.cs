@@ -42,6 +42,8 @@ public class RocketMovement : MonoBehaviour
 
     private void ApplyRotation(float rotationForce)
     {
+        rigid.freezeRotation = true; // Make physics system stop rotating the object so that we can manually rotate the object like how we want
         this.transform.Rotate(Vector3.forward * rotationForce * Time.deltaTime);
+        rigid.freezeRotation = false; // Give back control to the physics system
     }
 }
