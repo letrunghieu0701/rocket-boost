@@ -8,10 +8,12 @@ public class RocketMovement : MonoBehaviour
     [SerializeField] private float thrustForce = 5f;
     [SerializeField] private float rotationSpeed = 5f;
 
+    private AudioSource audioSource;
 
     private void Start()
     {
         rigid = this.gameObject.GetComponent<Rigidbody>();
+        audioSource = this.gameObject.GetComponent<AudioSource>();
     }
 
     private void Update()
@@ -25,6 +27,14 @@ public class RocketMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.Space))
         {
             rigid.AddRelativeForce(Vector3.up * thrustForce * Time.deltaTime);
+            if (!audioSource.isPlaying)
+            {
+                audioSource.Play();
+            }
+        }
+        else
+        {
+            audioSource.Stop();
         }
     }
 
