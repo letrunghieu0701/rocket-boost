@@ -56,4 +56,9 @@ public class RocketMovement : MonoBehaviour
         this.transform.Rotate(Vector3.forward * rotationForce * Time.deltaTime);
         rigid.freezeRotation = false; // Give back control to the physics system
     }
+
+    public void StopThrustingSound()
+    {
+        audioSource.Stop();
+    }
 }
