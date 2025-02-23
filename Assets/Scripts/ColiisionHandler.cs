@@ -7,6 +7,14 @@ public class ColiisionHandler : MonoBehaviour
 {
     [SerializeField] private float levelLoadDelayTime = 1f;
 
+    private AudioSource audioSource;
+    private bool isTransitioning = false;
+
+    private void Start()
+    {
+        audioSource = this.GetComponent<AudioSource>();
+    }
+
     private void OnCollisionEnter(Collision other)
     {
         switch (other.gameObject.tag)
@@ -15,8 +23,6 @@ public class ColiisionHandler : MonoBehaviour
                 StartSuccessSequence();
                 break;
             case "Obstacle":
-                StartCrashSequence();
-                break;
             case "Ground":
                 StartCrashSequence();
                 break;
@@ -25,9 +31,18 @@ public class ColiisionHandler : MonoBehaviour
 
     private void StartCrashSequence()
     {
+        if (isTransitioning)
+        {
+            return;
+        }
+
+        isTransitioning = true;
+
         RocketMovement movementScript = this.gameObject.GetComponent<RocketMovement>();
-        movementScript.StopThrustingSound(); // Stop playing sound
+        movementScript.StopThrustingSound(); // Stop playing thrusting sound
         movementScript.enabled = false; // Stop processing player's input when they crashed the rocket
+
+        audioSource.Play();
 
         // Reload current level
         Invoke("ReloadCurrentLevel", levelLoadDelayTime);
@@ -37,28 +52,39 @@ public class ColiisionHandler : MonoBehaviour
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
+        isTransitioning = false;
     }
 
     private void StartSuccessSequence()
+    {
+        if (isTransitioning)
+        {
+            return;
+        }
+
+        isTransitioning = true;
+
+        RocketMovement movementScript = this.gameObject.GetComponent<RocketMovement>();
+        movementScript.StopThrustingSound(); // Stop playing thrusting sound
+        movementScript.enabled = false; // Stop processing player's input when they landed the rocket
+
+        Camera mainCamera = Camera.main;
+        AudioSource successAudioSource = mainCamera.transform.GetComponent<AudioSource>();
+        successAudioSource.Play();
+
+        Invoke("LoadNextLevel", levelLoadDelayTime);
+    }
+
+    private void LoadNextLevel()
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         int nextSceneIndex = currentSceneIndex + 1;
         if (nextSceneIndex == SceneManager.sceneCountInBuildSettings) // The player has finished all the levels
         {
-            Debug.Log("You Win The Game");
-            RocketMovement movementScript = this.gameObject.GetComponent<RocketMovement>();
-            movementScript.enabled = false; // Stop processing player's input when they win the game
-            return;
+            nextSceneIndex = 0; // Roll back to the first level
         }
-
-        StartCoroutine("LoadNextLevel");
-    }
-
-    private IEnumerator LoadNextLevel()
-    {
-        yield return new WaitForSeconds(levelLoadDelayTime);
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        int nextSceneIndex = currentSceneIndex + 1;
         SceneManager.LoadScene(nextSceneIndex);
+
+        isTransitioning = false;
     }
 }

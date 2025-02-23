@@ -5,15 +5,15 @@ using UnityEngine;
 public class RocketMovement : MonoBehaviour
 {
     private Rigidbody rigid;
-    [SerializeField] private float thrustForce = 5f;
-    [SerializeField] private float rotationSpeed = 5f;
+    [SerializeField] private float thrustForce = 1200f;
+    [SerializeField] private float rotationSpeed = 300f;
 
     private AudioSource audioSource;
 
     private void Start()
     {
         rigid = this.gameObject.GetComponent<Rigidbody>();
-        audioSource = this.gameObject.GetComponent<AudioSource>();
+        audioSource = this.transform.Find("WingTail").GetComponent<AudioSource>();
     }
 
     private void Update()
