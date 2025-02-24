@@ -12,11 +12,16 @@ public class ColiisionHandler : MonoBehaviour
 
     private void Start()
     {
-        audioSource = this.GetComponent<AudioSource>();
+        audioSource = this.transform.GetComponent<AudioSource>();
     }
 
     private void OnCollisionEnter(Collision other)
     {
+        if (isTransitioning)
+        {
+            return;
+        }
+
         switch (other.gameObject.tag)
         {
             case "LandingPad":
@@ -31,14 +36,9 @@ public class ColiisionHandler : MonoBehaviour
 
     private void StartCrashSequence()
     {
-        if (isTransitioning)
-        {
-            return;
-        }
-
         isTransitioning = true;
 
-        RocketMovement movementScript = this.gameObject.GetComponent<RocketMovement>();
+        RocketMovement movementScript = this.transform.GetComponent<RocketMovement>();
         movementScript.StopThrustingSound(); // Stop playing thrusting sound
         movementScript.enabled = false; // Stop processing player's input when they crashed the rocket
 
@@ -57,14 +57,9 @@ public class ColiisionHandler : MonoBehaviour
 
     private void StartSuccessSequence()
     {
-        if (isTransitioning)
-        {
-            return;
-        }
-
         isTransitioning = true;
 
-        RocketMovement movementScript = this.gameObject.GetComponent<RocketMovement>();
+        RocketMovement movementScript = this.transform.GetComponent<RocketMovement>();
         movementScript.StopThrustingSound(); // Stop playing thrusting sound
         movementScript.enabled = false; // Stop processing player's input when they landed the rocket
 

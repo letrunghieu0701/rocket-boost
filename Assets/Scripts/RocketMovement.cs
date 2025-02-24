@@ -12,7 +12,7 @@ public class RocketMovement : MonoBehaviour
 
     private void Start()
     {
-        rigid = this.gameObject.GetComponent<Rigidbody>();
+        rigid = this.transform.GetComponent<Rigidbody>();
         audioSource = this.transform.Find("WingTail").GetComponent<AudioSource>();
     }
 
