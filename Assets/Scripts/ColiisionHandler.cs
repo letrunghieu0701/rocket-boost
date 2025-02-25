@@ -10,9 +10,15 @@ public class ColiisionHandler : MonoBehaviour
     private AudioSource audioSource;
     private bool isTransitioning = false;
 
+    private ParticleSystem successEffect;
+    private ParticleSystem crashEffect;
+
     private void Start()
     {
         audioSource = this.transform.GetComponent<AudioSource>();
+
+        successEffect = this.transform.Find("Effects/Success").GetComponent<ParticleSystem>();
+        crashEffect = this.transform.Find("Effects/Explosion").GetComponent<ParticleSystem>();
     }
 
     private void OnCollisionEnter(Collision other)
@@ -39,10 +45,13 @@ public class ColiisionHandler : MonoBehaviour
         isTransitioning = true;
 
         RocketMovement movementScript = this.transform.GetComponent<RocketMovement>();
-        movementScript.StopThrustingSound(); // Stop playing thrusting sound
+        movementScript.StopThrusting();
+        movementScript.StopSideThrustersParticle();
         movementScript.enabled = false; // Stop processing player's input when they crashed the rocket
 
         audioSource.Play();
+
+        crashEffect.Play();
 
         // Reload current level
         Invoke("ReloadCurrentLevel", levelLoadDelayTime);
@@ -60,12 +69,15 @@ public class ColiisionHandler : MonoBehaviour
         isTransitioning = true;
 
         RocketMovement movementScript = this.transform.GetComponent<RocketMovement>();
-        movementScript.StopThrustingSound(); // Stop playing thrusting sound
+        movementScript.StopThrusting();
+        movementScript.StopSideThrustersParticle();
         movementScript.enabled = false; // Stop processing player's input when they landed the rocket
 
         Camera mainCamera = Camera.main;
         AudioSource successAudioSource = mainCamera.transform.GetComponent<AudioSource>();
         successAudioSource.Play();
+
+        successEffect.Play();
 
         Invoke("LoadNextLevel", levelLoadDelayTime);
     }
