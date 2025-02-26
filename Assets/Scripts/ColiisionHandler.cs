@@ -46,7 +46,7 @@ public class ColiisionHandler : MonoBehaviour
 
         RocketMovement movementScript = this.transform.GetComponent<RocketMovement>();
         movementScript.StopThrusting();
-        movementScript.StopSideThrustersParticle();
+        movementScript.StopRotating();
         movementScript.enabled = false; // Stop processing player's input when they crashed the rocket
 
         audioSource.Play();
@@ -70,7 +70,7 @@ public class ColiisionHandler : MonoBehaviour
 
         RocketMovement movementScript = this.transform.GetComponent<RocketMovement>();
         movementScript.StopThrusting();
-        movementScript.StopSideThrustersParticle();
+        movementScript.StopRotating();
         movementScript.enabled = false; // Stop processing player's input when they landed the rocket
 
         Camera mainCamera = Camera.main;

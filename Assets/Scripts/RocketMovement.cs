@@ -34,20 +34,11 @@ public class RocketMovement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            rigid.AddRelativeForce(Vector3.up * thrustForce * Time.deltaTime);
-            if (!audioSource.isPlaying)
-            {
-                audioSource.Play();
-            }
-            if (!mainEngineParticle.isPlaying)
-            {
-                mainEngineParticle.Play();
-            }
+            StartThrusting();
         }
         else
         {
-            audioSource.Stop();
-            mainEngineParticle.Stop();
+            StopThrusting();
         }
     }
 
@@ -55,23 +46,52 @@ public class RocketMovement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.A)) // Rotate to left
         {
-            ApplyRotation(rotationSpeed);
-            if (!rightThrusterParticle.isPlaying)
-            {
-                rightThrusterParticle.Play();
-            }
+            RotateLeft();
         }
         else if (Input.GetKey(KeyCode.D)) // Rotate to right
         {
-            ApplyRotation(-rotationSpeed);
-            if (!leftThrusterParticle.isPlaying)
-            {
-                leftThrusterParticle.Play();
-            }
+            RotateRight();
         }
         else
         {
-            StopSideThrustersParticle();
+            StopRotating();
+        }
+    }
+
+    private void StartThrusting()
+    {
+        rigid.AddRelativeForce(Vector3.up * thrustForce * Time.deltaTime);
+        if (!audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
+        if (!mainEngineParticle.isPlaying)
+        {
+            mainEngineParticle.Play();
+        }
+    }
+
+    public void StopThrusting()
+    {
+        audioSource.Stop();
+        mainEngineParticle.Stop();
+    }
+
+    private void RotateLeft()
+    {
+        ApplyRotation(rotationSpeed);
+        if (!rightThrusterParticle.isPlaying)
+        {
+            rightThrusterParticle.Play();
+        }
+    }
+
+    private void RotateRight()
+    {
+        ApplyRotation(-rotationSpeed);
+        if (!leftThrusterParticle.isPlaying)
+        {
+            leftThrusterParticle.Play();
         }
     }
 
@@ -83,15 +103,9 @@ public class RocketMovement : MonoBehaviour
         rigid.freezeRotation = false; // Give back control to the physics system
     }
 
-    public void StopSideThrustersParticle()
+    public void StopRotating()
     {
         leftThrusterParticle.Stop();
         rightThrusterParticle.Stop();
-    }
-
-    public void StopThrusting()
-    {
-        audioSource.Stop();
-        mainEngineParticle.Stop();
     }
 }
