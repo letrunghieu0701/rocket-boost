@@ -13,6 +13,8 @@ public class ColiisionHandler : MonoBehaviour
     private ParticleSystem successEffect;
     private ParticleSystem crashEffect;
 
+    private bool isCheckingCollision = true;
+
     private void Start()
     {
         audioSource = this.transform.GetComponent<AudioSource>();
@@ -21,9 +23,26 @@ public class ColiisionHandler : MonoBehaviour
         crashEffect = this.transform.Find("Effects/Explosion").GetComponent<ParticleSystem>();
     }
 
+    private void Update()
+    {
+        ProcessDebugKeys();
+    }
+
+    private void ProcessDebugKeys()
+    {
+        if (Input.GetKeyDown(KeyCode.L)) // Load next level
+        {
+            LoadNextLevel();
+        }
+        if (Input.GetKeyDown(KeyCode.C)) // Turn off/on collision checking
+        {
+            isCheckingCollision = !isCheckingCollision;
+        }
+    }
+
     private void OnCollisionEnter(Collision other)
     {
-        if (isTransitioning)
+        if (isTransitioning || !isCheckingCollision)
         {
             return;
         }
