@@ -5,6 +5,7 @@ using UnityEngine;
 public class Oscillator : MonoBehaviour
 {
     private Vector3 startingPoint;
+    private Vector3 travelVector;
     [SerializeField] Vector3 endingPoint;
     float offsetMoving;
     [SerializeField] float period = 2f;
@@ -14,6 +15,7 @@ public class Oscillator : MonoBehaviour
     void Start()
     {
         startingPoint = this.transform.position;
+        travelVector = endingPoint - startingPoint;
     }
 
     void Update()
@@ -26,6 +28,6 @@ public class Oscillator : MonoBehaviour
         float cycles = Time.time / period; // calculate how many cycles has been, used for the sin wave
         float sinWaveValue = Mathf.Sin(cycles * TAU);
         offsetMoving = (sinWaveValue + 1) / 2; // recalculate to make the sin wave's value in [0, 1]
-        this.transform.position = startingPoint + offsetMoving * endingPoint;
+        this.transform.position = startingPoint + offsetMoving * travelVector;
     }
 }
