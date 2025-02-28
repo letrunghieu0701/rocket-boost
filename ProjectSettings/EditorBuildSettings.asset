@@ -9,18 +9,12 @@ EditorBuildSettings:
     path: Assets/_Scenes/FlyOver_Scene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/_Scenes/MovingObstacle_Scene.unity
-    guid: 95e8d1efd4f50d042b1b1005188ed598
-  - enabled: 1
     path: Assets/_Scenes/FlyUnder_Scene.unity
     guid: 559c87b44237a5e45888f0210adb0183
   - enabled: 1
-    path: Assets/_Scenes/MovingObstacleHarder02_Scene_1.unity
+    path: Assets/_Scenes/MovingObstacle_Scene.unity
+    guid: 95e8d1efd4f50d042b1b1005188ed598
+  - enabled: 1
+    path: Assets/_Scenes/MovingObstacleHarder_Scene.unity
     guid: c056baab12910b9469c0f5c3712c4478
-  - enabled: 1
-    path: Assets/_Scenes/MovingObstacleHarder01_Scene.unity
-    guid: 4b6847becd4ad9c458ca628cba2ebed2
-  - enabled: 1
-    path: Assets/_Scenes/MovingObstacleHarder02_Scene.unity
-    guid: 483240c26b5379c47a3a51258c071daa
   m_configObjects: {}
