@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5806919080351426672}
   - component: {fileID: 5806919080351426673}
   m_Layer: 0
-  m_Name: DecorateBox
+  m_Name: DecorateBox01_Prefab
   m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
