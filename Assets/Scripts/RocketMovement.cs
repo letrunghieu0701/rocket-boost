@@ -4,24 +4,24 @@ using UnityEngine;
 
 public class RocketMovement : MonoBehaviour
 {
-    private Rigidbody rigid;
-    [SerializeField] private float thrustForce = 1200f;
-    [SerializeField] private float rotationSpeed = 300f;
+    private Rigidbody _rigid;
+    [SerializeField] private float _thrustForce = 1200f;
+    [SerializeField] private float _rotationSpeed = 300f;
 
-    private AudioSource audioSource;
-    private ParticleSystem mainEngineParticle;
-    private ParticleSystem leftThrusterParticle;
-    private ParticleSystem rightThrusterParticle;
+    private AudioSource _audioSource;
+    private ParticleSystem _mainEngineEffect;
+    private ParticleSystem _leftThrusterEffect;
+    private ParticleSystem _rightThrusterEffect;
 
     private void Start()
     {
-        rigid = this.transform.GetComponent<Rigidbody>();
+        _rigid = this.transform.GetComponent<Rigidbody>();
 
-        audioSource = this.transform.Find("Sound").GetComponent<AudioSource>();
+        _audioSource = this.transform.Find("Sound").GetComponent<AudioSource>();
 
-        mainEngineParticle = this.transform.Find("Effects/EngineThruster").GetComponent<ParticleSystem>();
-        leftThrusterParticle = this.transform.Find("Effects/LeftSideThruster").GetComponent<ParticleSystem>();
-        rightThrusterParticle = this.transform.Find("Effects/RightSideThruster").GetComponent<ParticleSystem>();
+        _mainEngineEffect = this.transform.Find("Effects/EngineThruster").GetComponent<ParticleSystem>();
+        _leftThrusterEffect = this.transform.Find("Effects/LeftSideThruster").GetComponent<ParticleSystem>();
+        _rightThrusterEffect = this.transform.Find("Effects/RightSideThruster").GetComponent<ParticleSystem>();
     }
 
     private void Update()
@@ -44,11 +44,12 @@ public class RocketMovement : MonoBehaviour
 
     private void ProcessRotation()
     {
-        if (Input.GetKey(KeyCode.A)) // Rotate to left
+        float rotation = Input.GetAxis("Horizontal");
+        if (rotation < 0) // Rotate to left
         {
             RotateLeft();
         }
-        else if (Input.GetKey(KeyCode.D)) // Rotate to right
+        else if (rotation > 0) // Rotate to right
         {
             RotateRight();
         }
@@ -60,52 +61,52 @@ public class RocketMovement : MonoBehaviour
 
     private void StartThrusting()
     {
-        rigid.AddRelativeForce(Vector3.up * thrustForce * Time.deltaTime);
-        if (!audioSource.isPlaying)
+        _rigid.AddRelativeForce(Vector3.up * _thrustForce * Time.deltaTime);
+        if (!_audioSource.isPlaying)
         {
-            audioSource.Play();
+            _audioSource.Play();
         }
-        if (!mainEngineParticle.isPlaying)
+        if (!_mainEngineEffect.isPlaying)
         {
-            mainEngineParticle.Play();
+            _mainEngineEffect.Play();
         }
     }
 
     public void StopThrusting()
     {
-        audioSource.Stop();
-        mainEngineParticle.Stop();
+        _audioSource.Stop();
+        _mainEngineEffect.Stop();
     }
 
     private void RotateLeft()
     {
-        ApplyRotation(rotationSpeed);
-        if (!rightThrusterParticle.isPlaying)
+        ApplyRotation(_rotationSpeed);
+        if (!_rightThrusterEffect.isPlaying)
         {
-            rightThrusterParticle.Play();
+            _rightThrusterEffect.Play();
         }
     }
 
     private void RotateRight()
     {
-        ApplyRotation(-rotationSpeed);
-        if (!leftThrusterParticle.isPlaying)
+        ApplyRotation(-_rotationSpeed);
+        if (!_leftThrusterEffect.isPlaying)
         {
-            leftThrusterParticle.Play();
+            _leftThrusterEffect.Play();
         }
     }
 
     private void ApplyRotation(float rotationForce)
     {
         // Rotate transform
-        rigid.freezeRotation = true; // Make physics system stop rotating the object so that we can manually rotate the object like how we want
+        _rigid.freezeRotation = true; // Make physics system stop rotating the object so that we can manually rotate the object like how we want
         this.transform.Rotate(Vector3.forward * rotationForce * Time.deltaTime);
-        rigid.freezeRotation = false; // Give back control to the physics system
+        _rigid.freezeRotation = false; // Give back control to the physics system
     }
 
     public void StopRotating()
     {
-        leftThrusterParticle.Stop();
-        rightThrusterParticle.Stop();
+        _leftThrusterEffect.Stop();
+        _rightThrusterEffect.Stop();
     }
 }

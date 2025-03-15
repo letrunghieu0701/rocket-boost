@@ -7,20 +7,20 @@ public class ColiisionHandler : MonoBehaviour
 {
     [SerializeField] private float levelLoadDelayTime = 1f;
 
-    private AudioSource audioSource;
-    private bool isTransitioning = false;
+    private AudioSource _audioSource;
+    private bool _isTransitioningScene = false;
 
-    private ParticleSystem successEffect;
-    private ParticleSystem crashEffect;
+    private ParticleSystem _successEffect;
+    private ParticleSystem _crashEffect;
 
-    private bool isCheckingCollision = true;
+    private bool _isCheckingCollision = true;
 
     private void Start()
     {
-        audioSource = this.transform.GetComponent<AudioSource>();
+        _audioSource = this.transform.GetComponent<AudioSource>();
 
-        successEffect = this.transform.Find("Effects/Success").GetComponent<ParticleSystem>();
-        crashEffect = this.transform.Find("Effects/Explosion").GetComponent<ParticleSystem>();
+        _successEffect = this.transform.Find("Effects/Success").GetComponent<ParticleSystem>();
+        _crashEffect = this.transform.Find("Effects/Explosion").GetComponent<ParticleSystem>();
     }
 
     private void Update()
@@ -36,13 +36,13 @@ public class ColiisionHandler : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.C)) // Turn off/on collision checking
         {
-            isCheckingCollision = !isCheckingCollision;
+            _isCheckingCollision = !_isCheckingCollision;
         }
     }
 
     private void OnCollisionEnter(Collision other)
     {
-        if (isTransitioning || !isCheckingCollision)
+        if (_isTransitioningScene || !_isCheckingCollision)
         {
             return;
         }
@@ -61,16 +61,16 @@ public class ColiisionHandler : MonoBehaviour
 
     private void StartCrashSequence()
     {
-        isTransitioning = true;
+        _isTransitioningScene = true;
 
         RocketMovement movementScript = this.transform.GetComponent<RocketMovement>();
         movementScript.StopThrusting();
         movementScript.StopRotating();
         movementScript.enabled = false; // Stop processing player's input when they crashed the rocket
 
-        audioSource.Play();
+        _audioSource.Play();
 
-        crashEffect.Play();
+        _crashEffect.Play();
 
         // Reload current level
         Invoke("ReloadCurrentLevel", levelLoadDelayTime);
@@ -80,12 +80,12 @@ public class ColiisionHandler : MonoBehaviour
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
-        isTransitioning = false;
+        _isTransitioningScene = false;
     }
 
     private void StartSuccessSequence()
     {
-        isTransitioning = true;
+        _isTransitioningScene = true;
 
         RocketMovement movementScript = this.transform.GetComponent<RocketMovement>();
         movementScript.StopThrusting();
@@ -96,7 +96,7 @@ public class ColiisionHandler : MonoBehaviour
         AudioSource successAudioSource = mainCamera.transform.GetComponent<AudioSource>();
         successAudioSource.Play();
 
-        successEffect.Play();
+        _successEffect.Play();
 
         Invoke("LoadNextLevel", levelLoadDelayTime);
     }
@@ -111,6 +111,6 @@ public class ColiisionHandler : MonoBehaviour
         }
         SceneManager.LoadScene(nextSceneIndex);
 
-        isTransitioning = false;
+        _isTransitioningScene = false;
     }
 }
