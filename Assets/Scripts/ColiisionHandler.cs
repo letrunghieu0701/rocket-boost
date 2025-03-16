@@ -62,6 +62,7 @@ public class ColiisionHandler : MonoBehaviour
     private void StartCrashSequence()
     {
         _isTransitioningScene = true;
+        UIManager.Instance.ShowUI("GameOver_UI");
 
         RocketMovement movementScript = this.transform.GetComponent<RocketMovement>();
         movementScript.StopThrusting();
@@ -81,6 +82,7 @@ public class ColiisionHandler : MonoBehaviour
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentSceneIndex);
         _isTransitioningScene = false;
+        UIManager.Instance.HideAllUI();
     }
 
     private void StartSuccessSequence()
@@ -107,7 +109,9 @@ public class ColiisionHandler : MonoBehaviour
         int nextSceneIndex = currentSceneIndex + 1;
         if (nextSceneIndex == SceneManager.sceneCountInBuildSettings) // The player has finished all the levels
         {
-            nextSceneIndex = 0; // Roll back to the first level
+            //nextSceneIndex = 0; // Roll back to the first level
+            UIManager.Instance.ShowUI("GameFinish_UI");
+            return;
         }
         SceneManager.LoadScene(nextSceneIndex);
 

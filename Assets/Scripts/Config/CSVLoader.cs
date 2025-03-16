@@ -6,6 +6,8 @@ using UnityEngine;
 
 public static class CSVLoader
 {
+    private static char _columnSeperator = ',';
+
     public static List<TData> LoadConfig<TData>(string filePath) where TData : new()
     {
         List<TData> dataList = new List<TData>();
@@ -27,13 +29,13 @@ public static class CSVLoader
                 return dataList;
             }
 
-            string[] headers = headerLine.Split(',');
+            string[] headers = headerLine.Split(_columnSeperator);
 
             // Read each row of data
             string line;
             while ((line = reader.ReadLine()) != null)
             {
-                string[] lineValues = line.Split(',');
+                string[] lineValues = line.Split(_columnSeperator);
                 if (lineValues.Length < 2) // Skip the last empty row or empty row
                 {
                     continue;

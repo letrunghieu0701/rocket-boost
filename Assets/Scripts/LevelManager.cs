@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class LevelManager : MonoBehaviour
 {
-    public static GameManager Instance { get; private set; }
+    public static LevelManager Instance { get; private set; }
 
-    private GameManager() { }
+    private LevelManager() { }
 
     private void Awake()
     {
@@ -15,6 +15,7 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(this);
+            Init();
         }
         else
         {
@@ -22,23 +23,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void Init()
     {
-        UIManager.Instance.ShowUI("StartGame_UI");
     }
 
-    private void Update()
-    {
-
-    }
-
-    public void StartGame()
-    {
-        LoadNextLevel();
-        UIManager.Instance.HideAllUI(); ;
-    }
-
-    private void LoadNextLevel()
+    public void LoadNextLevel()
     {
         int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         int nextSceneIndex = currentSceneIndex + 1;
@@ -49,8 +38,10 @@ public class GameManager : MonoBehaviour
         SceneManager.LoadScene(nextSceneIndex);
     }
 
-    public TData GetConfigData<TKey, TData>(TKey dataID) where TData : class, IConfigData<TKey>
+    public void BackToStartScene()
     {
-        return ConfigManager.Instance.GetConfigData<TKey, TData>(dataID);
+        UIManager.Instance.HideAllUI();
+        LoadNextLevel();
+        UIManager.Instance.ShowUI("StartGame_UI");
     }
 }

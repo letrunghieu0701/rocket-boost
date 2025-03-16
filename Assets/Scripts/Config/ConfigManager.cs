@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ConfigManager
+public class ConfigManager : MonoBehaviour
 {
     public static ConfigManager Instance { get; private set; }
 
@@ -11,13 +11,23 @@ public class ConfigManager
 
     private ConfigManager() { }
 
-    public static void Init()
+    private void Awake()
     {
         if (Instance == null)
         {
-            Instance = new ConfigManager();
-            Instance.LoadAllConfigs();
+            Instance = this;
+            DontDestroyOnLoad(this);
+            Init();
         }
+        else
+        {
+            Destroy(this);
+        }
+    }
+
+    private void Init()
+    {
+        LoadAllConfigs();
     }
 
     private void LoadAllConfigs()

@@ -26,7 +26,12 @@ public class ConfigDatabase<TKey, TData> where TData : class, IConfigData<TKey>,
 
     public TData GetDataByKey(TKey dataID)
     {
-        _dataDictionary.TryGetValue(dataID, out TData value);
-        return value;
+        if (_dataDictionary.TryGetValue(dataID, out TData value))
+        {
+            return value;
+        }
+        
+        Debug.LogError($"ConfigDatabase: Can't find {typeof(TData).Name} with ID {dataID}");
+        return null;
     }
 }
