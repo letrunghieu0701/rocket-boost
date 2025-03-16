@@ -503,7 +503,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5089666671997179339, guid: 4db14a34a46050042bed172d058b6ffb, type: 3}
       propertyPath: m_Name
-      value: MovingObstacleBox (4)
+      value: MovingObstacleBox_5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4db14a34a46050042bed172d058b6ffb, type: 3}
@@ -937,7 +937,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5089666671997179339, guid: 4db14a34a46050042bed172d058b6ffb, type: 3}
       propertyPath: m_Name
-      value: MovingObstacleBox
+      value: MovingObstacleBox_2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4db14a34a46050042bed172d058b6ffb, type: 3}
@@ -1068,7 +1068,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3439087394855946035, guid: 838659d4c0618ed4f8875dfebf6005ac, type: 3}
       propertyPath: m_Name
-      value: MovingObstacleBoxSlim (1)
+      value: MovingObstacleBoxSlim_4
       objectReference: {fileID: 0}
     - target: {fileID: 7502100903233948271, guid: 838659d4c0618ed4f8875dfebf6005ac, type: 3}
       propertyPath: period
@@ -1165,7 +1165,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5089666671997179339, guid: 4db14a34a46050042bed172d058b6ffb, type: 3}
       propertyPath: m_Name
-      value: MovingObstacleBox (2)
+      value: MovingObstacleBox_3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4db14a34a46050042bed172d058b6ffb, type: 3}
@@ -1745,7 +1745,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3439087394855946035, guid: 838659d4c0618ed4f8875dfebf6005ac, type: 3}
       propertyPath: m_Name
-      value: MovingObstacleBoxSlim
+      value: MovingObstacleBoxSlim_1
       objectReference: {fileID: 0}
     - target: {fileID: 7502100903233948271, guid: 838659d4c0618ed4f8875dfebf6005ac, type: 3}
       propertyPath: period

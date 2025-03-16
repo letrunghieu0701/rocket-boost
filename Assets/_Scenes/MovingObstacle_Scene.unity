@@ -1958,7 +1958,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5089666671997179339, guid: 4db14a34a46050042bed172d058b6ffb, type: 3}
       propertyPath: m_Name
-      value: MovingObstacleBox
+      value: MovingObstacleBox_1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4db14a34a46050042bed172d058b6ffb, type: 3}

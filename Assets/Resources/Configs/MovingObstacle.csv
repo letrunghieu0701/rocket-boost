@@ -1,0 +1,7 @@
+﻿ID,Order,SceneName,ObstacleInSceneID,StartPoint,EndPoint,Period
+MovingObstacle_Scene_1,1,MovingObstacle_Scene,1,(0.86; 3.78; 0),(0.86; 21.49; 0),5
+MovingObstacleHarder_Scene_1,2,MovingObstacleHarder_Scene,1,(2.2; 28.2; 0),(2.2; 17.78; 0),4.5
+MovingObstacleHarder_Scene_2,3,MovingObstacleHarder_Scene,2,(-9; 11.87; 6.3),(-9; 11.87; -4.9),6
+MovingObstacleHarder_Scene_3,4,MovingObstacleHarder_Scene,3,(2.87; 11.87; 6.18),(2.87; 11.87; -9.04),7
+MovingObstacleHarder_Scene_4,5,MovingObstacleHarder_Scene,4,(2.2; 0.61; 0),(2.2; 7.26; 0),5.5
+MovingObstacleHarder_Scene_5,6,MovingObstacleHarder_Scene,5,(14.63; 11.87; 7.1),(14.63; 11.87; -2),5
