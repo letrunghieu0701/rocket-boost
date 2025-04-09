@@ -7,6 +7,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    [SerializeField]
+    private GameObject _uiManagerPrefab;
+
     private GameManager() { }
 
     private void Awake()
@@ -18,12 +21,19 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Destroy(this);
+            Destroy(this.gameObject);
         }
     }
 
     private void Start()
     {
+        if (_uiManagerPrefab == null)
+        {
+            Debug.LogError("GameManager: Missing reference to UIManager prefab");
+            return;
+        }
+
+        Instantiate(_uiManagerPrefab);
         UIManager.Instance.ShowUI("StartGame_UI");
     }
 
