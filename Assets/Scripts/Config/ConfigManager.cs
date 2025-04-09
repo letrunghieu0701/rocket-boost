@@ -41,6 +41,7 @@ public class ConfigManager : MonoBehaviour
         {
             return MovingObstacleConfig.GetDataByKey((string)(object)dataID) as TData;
         }
+
         return null;
     }
 }

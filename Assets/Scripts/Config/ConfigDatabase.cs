@@ -12,9 +12,15 @@ public class ConfigDatabase<TKey, TData> where TData : class, IConfigData<TKey>,
     {
         _dataDictionary.Clear();
         _filePath = filePath;
-        var dataList = CSVLoader.LoadConfig<TData>(filePath);
+        List<TData> dataList = CSVLoader.LoadConfig<TData>(filePath);
         for (int i = 0; i < dataList.Count; i++)
         {
+            if (_dataDictionary.ContainsKey(dataList[i].ID))
+            {
+                Debug.LogError($"ConfigDatabase: Duplicate ID: {dataList[i].ID} in config {_filePath}.csv");
+                continue;
+            }
+
             _dataDictionary[dataList[i].ID] = dataList[i];
         }
     }

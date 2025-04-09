@@ -29,18 +29,20 @@ public static class CSVLoader
                 return dataList;
             }
 
-            string[] headers = headerLine.Split(_columnSeperator);
+            string[] headerNames = headerLine.Split(_columnSeperator);
 
             // Read each row of data
             string line;
+            string[] tokensInLine;
             while ((line = reader.ReadLine()) != null)
             {
-                string[] lineValues = line.Split(_columnSeperator);
-                if (lineValues.Length < 2) // Skip the last empty row or empty row
+                tokensInLine = line.Split(_columnSeperator);
+                if (tokensInLine.Length < 2) // Skip the last empty row or empty row
                 {
                     continue;
                 }
-                TData data = ParseRow<TData>(headers, lineValues);
+
+                TData data = ParseRow<TData>(headerNames, tokensInLine);
                 dataList.Add(data);
             }
         }
@@ -48,53 +50,26 @@ public static class CSVLoader
         return dataList;
     }
 
-    private static TData ParseRow<TData>(string[] headers, string[] lineValues) where TData : new()
+    private static TData ParseRow<TData>(string[] headerNames, string[] tokensInLine) where TData : new()
     {
         TData data = new TData();
         var type = typeof(TData);
 
-        for (int i = 0; i < headers.Length; i++)
+        for (int i = 0; i < headerNames.Length; i++)
         {
-            var field = type.GetProperty(headers[i]);
-            if (field == null) // Ignore empty cell value since not every line needs to be filled out
+            var field = type.GetProperty(headerNames[i]);
+
+            // Ignore non-used headers since not every header is needed (example: comment or order column)
+            if (field == null)
             {
                 continue;
             }
 
-            object parsedValue = ConvertValue(field.PropertyType, lineValues[i]);
+            object parsedValue = SafeParser.ParseValue(field.PropertyType, tokensInLine[i]);
+            // if parsedValue is null and this field is a value-type then the default value of this type will be used for this field
             field.SetValue(data, parsedValue);
         }
 
         return data;
-    }
-
-    private static object ConvertValue(Type type, string value)
-    {
-        if (string.IsNullOrEmpty(value))
-            return type.IsValueType ? Activator.CreateInstance(type) : null;
-
-        if (type == typeof(int)) return int.Parse(value);
-        if (type == typeof(float)) return float.Parse(value);
-        if (type == typeof(bool)) return bool.Parse(value);
-        if (type == typeof(string)) return value;
-        if (type == typeof(Vector3)) return ParseVector3(value);
-
-        return null;
-    }
-
-    private static Vector3 ParseVector3(string value)
-    {
-        string[] parts = value.Trim('(', ')').Replace(" ", "").Split(';');
-        if (parts.Length != 3)
-        {
-            Debug.LogError($"CSVLoader: Invalid Vector3 format: {value}");
-            return Vector3.zero;
-        }
-
-        float x = float.Parse(parts[0]);
-        float y = float.Parse(parts[1]);
-        float z = float.Parse(parts[2]);
-
-        return new Vector3(x, y, z);
     }
 }
