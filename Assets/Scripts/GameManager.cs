@@ -34,6 +34,15 @@ public class GameManager : MonoBehaviour
         }
 
         Instantiate(_uiManagerPrefab);
+
+        // Check for open game from testing scene, 
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
+        if (currentSceneIndex != 0)
+        {
+            Debug.Log("<color=green>Non-init scene detected, skipping StartGame UI</color>");
+            return;
+        }
+
         UIManager.Instance.ShowUI("StartGame_UI");
     }
 

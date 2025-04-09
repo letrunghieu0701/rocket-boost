@@ -6,15 +6,11 @@ using UnityEngine.SceneManagement;
 public class Oscillator : MonoBehaviour
 {
     private int _ID;
-    private Vector3 _startingPoint;
-    private Vector3 _travelVector;
-    [SerializeField] private Vector3 endingPoint;
-    private float _offsetMoving;
-    [SerializeField] private float period = 2f;
-
-    private const float TAU = 2 * Mathf.PI; // name of the value equal to 2*PI
-
     private MovingObstacleData _configData;
+
+    [SerializeField] private Vector3 _startingPoint;
+    [SerializeField] private Vector3 _endingPoint;
+    [SerializeField] private float _SinPeriod;
 
     void Start()
     {
@@ -24,7 +20,8 @@ public class Oscillator : MonoBehaviour
             Debug.LogError($"Oscillator: Wrong naming format, must be ObjectName_<ID>");
             return;
         }
-        _ID = int.Parse(this.transform.name.Split('_')[1]);
+
+        _ID = int.Parse(nameTokens[1]);
         string activeSceneName = SceneManager.GetActiveScene().name;
         _configData = GameManager.Instance.GetConfigData<string, MovingObstacleData>($"{activeSceneName}_{_ID}");
         if (_configData == null)
@@ -34,9 +31,9 @@ public class Oscillator : MonoBehaviour
         }
 
         _startingPoint = _configData.StartPoint;
+        _endingPoint = _configData.EndPoint;
         this.transform.localPosition = _startingPoint;
-        period = _configData.Period;
-        _travelVector = endingPoint - _startingPoint;
+        _SinPeriod = _configData.Period;
     }
 
     void Update()
@@ -47,14 +44,14 @@ public class Oscillator : MonoBehaviour
             return;
         }
 
-        if (period <= Mathf.Epsilon) // Check if period <= a very tiny floating number, to avoid Time.time / 0
+        if (_SinPeriod <= Mathf.Epsilon) // Check if period <= a very tiny floating number, to avoid Time.time / 0
         {
             return;
         }
 
-        float cycles = Time.time / period; // calculate how many cycles has been, used for the sin wave
-        float sinWaveValue = Mathf.Sin(cycles * TAU);
-        _offsetMoving = (sinWaveValue + 1) / 2; // recalculate to make the sin wave's value in the range [0, 1]
-        this.transform.position = _startingPoint + _offsetMoving * _travelVector;
+        float cycles = Time.time / _SinPeriod; // calculate how many cycles has been, used for the sin wave
+        float sinWaveValue = Mathf.Sin(cycles * MathUtils.TAU);
+        float _offsetMoving = (sinWaveValue + 1) / 2; // recalculate to make the sin wave's value in the range [0, 1]
+        this.transform.position = _startingPoint + _offsetMoving * (_endingPoint - _startingPoint);
     }
 }
