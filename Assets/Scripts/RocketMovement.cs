@@ -8,7 +8,7 @@ public class RocketMovement : MonoBehaviour
     [SerializeField] private float _thrustForce = 1200f;
     [SerializeField] private float _rotationSpeed = 300f;
 
-    private AudioSource _audioSource;
+    private AudioSource _thrustingAudio;
     private ParticleSystem _mainEngineEffect;
     private ParticleSystem _leftThrusterEffect;
     private ParticleSystem _rightThrusterEffect;
@@ -17,7 +17,7 @@ public class RocketMovement : MonoBehaviour
     {
         _rigid = this.transform.GetComponent<Rigidbody>();
 
-        _audioSource = this.transform.Find("Sound").GetComponent<AudioSource>();
+        _thrustingAudio = this.transform.Find("ThrustingSound").GetComponent<AudioSource>();
 
         _mainEngineEffect = this.transform.Find("Effects/EngineThruster").GetComponent<ParticleSystem>();
         _leftThrusterEffect = this.transform.Find("Effects/LeftSideThruster").GetComponent<ParticleSystem>();
@@ -62,9 +62,9 @@ public class RocketMovement : MonoBehaviour
     private void StartThrusting()
     {
         _rigid.AddRelativeForce(Vector3.up * _thrustForce * Time.deltaTime);
-        if (!_audioSource.isPlaying)
+        if (!_thrustingAudio.isPlaying)
         {
-            _audioSource.Play();
+            _thrustingAudio.Play();
         }
         if (!_mainEngineEffect.isPlaying)
         {
@@ -74,7 +74,7 @@ public class RocketMovement : MonoBehaviour
 
     public void StopThrusting()
     {
-        _audioSource.Stop();
+        _thrustingAudio.Stop();
         _mainEngineEffect.Stop();
     }
 
