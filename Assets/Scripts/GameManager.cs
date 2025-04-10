@@ -55,23 +55,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        LoadNextLevel();
+        LevelManager.Instance.LoadNextLevel();
         UIManager.Instance.HideAllUI(); ;
-    }
-
-    private void LoadNextLevel()
-    {
-        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
-        int nextSceneIndex = currentSceneIndex + 1;
-        if (nextSceneIndex == SceneManager.sceneCountInBuildSettings) // The player has finished all the levels
-        {
-            nextSceneIndex = 0; // Roll back to the first level
-        }
-        SceneManager.LoadScene(nextSceneIndex);
-    }
-
-    public TData GetConfigData<TKey, TData>(TKey dataID) where TData : class, IConfigData<TKey>
-    {
-        return ConfigManager.Instance.GetConfigData<TKey, TData>(dataID);
     }
 }

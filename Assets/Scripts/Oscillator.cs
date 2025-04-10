@@ -23,10 +23,10 @@ public class Oscillator : MonoBehaviour
 
         _ID = int.Parse(nameTokens[1]);
         string activeSceneName = SceneManager.GetActiveScene().name;
-        _configData = GameManager.Instance.GetConfigData<string, MovingObstacleData>($"{activeSceneName}_{_ID}");
+        _configData = ConfigManager.Instance.GetConfigData<string, MovingObstacleData>($"{activeSceneName}_{_ID}");
         if (_configData == null)
         {
-            Debug.LogError($"Oscillator: Can find {typeof(MovingObstacleData).Name} by ID: {_ID}");
+            Debug.LogError($"Oscillator: Can't find {typeof(MovingObstacleData).Name} by ID: {_ID}");
             return;
         }
 
